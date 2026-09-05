@@ -1,0 +1,12 @@
+.git
+.gitignore
+.env
+docs
+keys
+certs
+samples
+README.md
+Makefile
+*.md
+**/__pycache__
+**/*.pyc

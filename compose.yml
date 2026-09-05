@@ -1,0 +1,32 @@
+services:
+  pycades:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+      args:
+        UBUNTU_VERSION: ${UBUNTU_VERSION:-24.04}
+        PYCADES_REF: ${PYCADES_REF:-v0.1.70300}
+    image: pycades:latest
+    container_name: pycades
+    # Значения подхватываются из файла .env в корне проекта, если он есть.
+    # Если файла нет — берутся значения по умолчанию, и проект стартует
+    # на демонстрационном контейнере keys/test1.000.
+    environment:
+      CERT_THUMBPRINT: ${CERT_THUMBPRINT:-}
+      CERT_PIN: ${CERT_PIN:-}
+      CHECK_CERTIFICATE: ${CHECK_CERTIFICATE:-false}
+      SETUP_TEST_CERT: ${SETUP_TEST_CERT:-false}
+      PFX_PASSWORD: ${PFX_PASSWORD:-}
+      CSP_LICENSE: ${CSP_LICENSE:-}
+    ports:
+      - "${APP_PORT:-8011}:8011"
+    volumes:
+      # код приложения — правки видны без пересборки образа
+      - ./app:/app
+      # ключевые контейнеры и сертификаты раскладывает entrypoint при старте
+      - ./keys:/opt/keys:ro
+      - ./certs:/opt/certs:ro
+      - ./samples:/samples:ro
+    stdin_open: true
+    tty: true
+    restart: unless-stopped
