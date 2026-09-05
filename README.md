@@ -1,4 +1,4 @@
-# 11_pycades — КриптоПро CSP + pycades в Docker
+# КриптоПро CSP + pycades в Docker
 
 Docker-окружение, которое собирает расширение [pycades](https://github.com/CryptoPro/pycades)
 (`pycades.so`) поверх КриптоПро CSP и поднимает поверх него HTTP-сервис
